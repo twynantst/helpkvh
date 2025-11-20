@@ -4,15 +4,14 @@ Deze eenvoudige statische site ondersteunt het inzamelen van geld voor de behand
 
 ## Structuur
 ```
-my-donation-website/
-  my-donation-website/
-    README.md
-    src/
-      index.html
-      components/donate-button.html
-      scripts/actions.js
-      scripts/donate.js
-      styles/main.css
+samen-voor-koen-tegen-kanker/
+  README.md
+  src/
+    index.html
+    components/donate-button.html
+    scripts/actions.js
+    scripts/donate.js
+    styles/main.css
 ```
 
 ## Lokale Test
