@@ -25,10 +25,24 @@
         <p class="intro-text">We organiseren verschillende acties om Koen te steunen. Klik op een actie voor meer details.</p>
         
         <div class="eigen-acties-grid">
-            <div class="eigen-actie-card" onclick="toggleDetails(this)">
+            <div class="eigen-actie-card" onclick="toggleDetails(this)" data-datum="2026-01-23">
+                <div class="actie-header">
+                    <h3>🧀 Kaas- & Wijnavond</h3>
+                    <span class="datum-badge">Vr 24 januari 2026</span>
+                </div>
+                <p class="locatie">📍 Parochiezaal Sint-Pieter</p>
+                <div class="actie-details" style="display:none;">
+                    <p><strong>Tijd:</strong> 19:00 - 23:00</p>
+                    <p><strong>Prijs:</strong> €25 per persoon (all-in degustatie)</p>
+                    <p><strong>Programma:</strong> Selectie van 8 kazen met bijpassende wijnen, uitleg door sommelier</p>
+                    <p><strong>Reserveren verplicht:</strong> <a href="mailto:kaas@helpkoen.be">kaas@helpkoen.be</a> - Beperkt aantal plaatsen!</p>
+                </div>
+                <span class="meer-info">▼ Klik voor meer info</span>
+            </div>
+            <div class="eigen-actie-card" onclick="toggleDetails(this)" data-datum="2026-01-23">
                 <div class="actie-header">
                     <h3>🎉 Benefietfuif</h3>
-                    <span class="datum-badge">Za 12 april 2025</span>
+                    <span class="datum-badge">Za 25 januari 2026</span>
                 </div>
                 <p class="locatie">📍 Sporthal De Kouter</p>
                 <div class="actie-details" style="display:none;">
@@ -40,25 +54,10 @@
                 <span class="meer-info">▼ Klik voor meer info</span>
             </div>
 
-            <div class="eigen-actie-card" onclick="toggleDetails(this)">
-                <div class="actie-header">
-                    <h3>🧀 Kaas- & Wijnavond</h3>
-                    <span class="datum-badge">Vr 18 april 2025</span>
-                </div>
-                <p class="locatie">📍 Parochiezaal Sint-Pieter</p>
-                <div class="actie-details" style="display:none;">
-                    <p><strong>Tijd:</strong> 19:00 - 23:00</p>
-                    <p><strong>Prijs:</strong> €25 per persoon (all-in degustatie)</p>
-                    <p><strong>Programma:</strong> Selectie van 8 kazen met bijpassende wijnen, uitleg door sommelier</p>
-                    <p><strong>Reserveren verplicht:</strong> <a href="mailto:kaas@helpkoen.be">kaas@helpkoen.be</a> - Beperkt aantal plaatsen!</p>
-                </div>
-                <span class="meer-info">▼ Klik voor meer info</span>
-            </div>
-
-            <div class="eigen-actie-card" onclick="toggleDetails(this)">
+            <div class="eigen-actie-card" onclick="toggleDetails(this)" data-datum="2026-01-25">
                 <div class="actie-header">
                     <h3>🍝 Spaghetti Dag</h3>
-                    <span class="datum-badge">Zo 27 april 2025</span>
+                    <span class="datum-badge">Zo 26 januari 2026</span>
                 </div>
                 <p class="locatie">📍 Gemeenteplein (overdekt bij regen)</p>
                 <div class="actie-details" style="display:none;">
@@ -75,6 +74,23 @@
 
     <section id="overzicht">
         <h2>Overzicht &amp; Kalender</h2>
+        
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button onclick="previousMonth()" class="calendar-nav">◀</button>
+                <h3 id="calendar-month-year">Januari 2026</h3>
+                <button onclick="nextMonth()" class="calendar-nav">▶</button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid">
+                <!-- Wordt gevuld door JavaScript -->
+            </div>
+            <div class="calendar-legend">
+                <span><span class="legend-dot onze-actie"></span> Onze acties</span>
+                <span><span class="legend-dot externe-actie"></span> Externe acties</span>
+            </div>
+        </div>
+        
+        <h3 class="lijst-titel">Alle Acties (Chronologisch)</h3>
         <div id="acties-container">
             <p>Nog geen geregistreerde externe acties.</p>
         </div>
@@ -150,6 +166,90 @@
             setTimeout(() => formContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
         }
     }
+    
+    // Kalender functionaliteit
+    let currentMonth = 0; // 0 = januari 2026
+    let currentYear = 2026;
+    
+    const EIGEN_ACTIES = [
+        { datum: '2026-01-23', titel: 'Benefietfuif', type: 'eigen' },
+        { datum: '2026-01-23', titel: 'Kaas- & Wijnavond', type: 'eigen' },
+        { datum: '2026-01-25', titel: 'Spaghetti Dag', type: 'eigen' }
+    ];
+    
+    function renderCalendar() {
+        const grid = document.getElementById('calendar-grid');
+        const monthYear = document.getElementById('calendar-month-year');
+        
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const lastDay = new Date(currentYear, currentMonth + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1; // Maandag = 0
+        
+        const monthNames = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 
+                           'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'];
+        monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+        
+        // Verzamel externe acties van actions-remote
+        const externeActies = window.alleExterneActies || [];
+        
+        // Header dagen
+        let html = '<div class="calendar-day-header">Ma</div><div class="calendar-day-header">Di</div>' +
+                   '<div class="calendar-day-header">Wo</div><div class="calendar-day-header">Do</div>' +
+                   '<div class="calendar-day-header">Vr</div><div class="calendar-day-header">Za</div>' +
+                   '<div class="calendar-day-header">Zo</div>';
+        
+        // Lege cellen voor dagen voor de 1e
+        for (let i = 0; i < startDayOfWeek; i++) {
+            html += '<div class="calendar-day empty"></div>';
+        }
+        
+        // Dagen van de maand
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const eigenActie = EIGEN_ACTIES.some(a => a.datum === dateStr);
+            const externeActie = externeActies.some(a => a.datum === dateStr);
+            
+            let classes = 'calendar-day';
+            let indicators = '';
+            
+            if (eigenActie) {
+                classes += ' has-event';
+                indicators += '<span class="event-indicator onze-actie"></span>';
+            }
+            if (externeActie) {
+                classes += ' has-event';
+                indicators += '<span class="event-indicator externe-actie"></span>';
+            }
+            
+            html += `<div class="${classes}"><span class="day-number">${day}</span>${indicators}</div>`;
+        }
+        
+        grid.innerHTML = html;
+    }
+    
+    function previousMonth() {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar();
+    }
+    
+    function nextMonth() {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        renderCalendar();
+    }
+    
+    // Initialiseer kalender
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCalendar();
+    });
 </script>
 </body>
 </html>

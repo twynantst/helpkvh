@@ -9,7 +9,7 @@
     const DEMO_ACTIES = [
         {
             titel: 'Wafelenbak bij de kerk',
-            datum: '2026-04-05',
+            datum: '2026-01-05',
             locatie: 'Kerkplein',
             organisator: 'Buren van de Kerkstraat',
             email: 'contact@voorbeeld.be',
@@ -17,7 +17,7 @@
         },
         {
             titel: 'Benefiet Quiz Avond',
-            datum: '2025-04-19',
+            datum: '2026-02-19',
             locatie: 'Café De Vriendschap',
             organisator: 'Quizclub De Slimmeriken',
             email: 'quiz@voorbeeld.be',
@@ -37,8 +37,10 @@
         console.log('loadActies() gestart, container:', container);
         // Check of Sheet URL al ingevuld is
         if (SHEET_CSV_URL.includes('JOUW_SHEET_ID')) {
-            console.info('Google Sheet nog niet geconfigureerd, toon demo data');
-            renderActies(DEMO_ACTIES);
+            console.info('Google Sheet nog niet geconfigureerd, combineer eigen + demo data');
+            const alleActies = [...EIGEN_ACTIES, ...DEMO_ACTIES];
+            renderActies(alleActies);
+            window.alleExterneActies = DEMO_ACTIES; // Voor kalender
             return;
         }
         
@@ -50,11 +52,11 @@
                 return response.text();
             })
             .then(csv => {
-                const acties = parseCSV(csv);
-                if(acties.length === 0)
-                    renderActies(DEMO_ACTIES);        
-                else
-                    renderActies(acties);
+                const externeActies = parseCSV(csv);
+                const alleActies = [...EIGEN_ACTIES, ...(externeActies.length > 0 ? externeActies : DEMO_ACTIES)];
+                renderActies(alleActies);
+                window.alleExterneActies = externeActies.length > 0 ? externeActies : DEMO_ACTIES;
+                if (typeof renderCalendar === 'function') renderCalendar();
             })
             .catch(err => {
                 console.error('Fout bij laden acties:', err);
@@ -140,7 +142,8 @@
         }
         
         container.innerHTML = toekomstActies.map(a => `
-            <div class="actie-item">
+            <div class="actie-item ${a.type === 'eigen' ? 'eigen-actie-item' : ''}">
+                ${a.type === 'eigen' ? '<span class="actie-badge">Onze Actie</span>' : ''}
                 <h3>${escapeHtml(a.titel)} <small>(${formatDate(a.datum)})</small></h3>
                 <p><strong>Locatie:</strong> ${escapeHtml(a.locatie)}</p>
                 <p><strong>Organisator:</strong> ${escapeHtml(a.organisator)}</p>

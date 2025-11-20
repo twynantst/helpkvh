@@ -253,6 +253,23 @@ form button:hover {
     box-shadow: 0 4px 12px rgba(230, 126, 34, 0.2);
     transform: translateX(4px);
 }
+.actie-item.eigen-actie-item {
+    border-left: 4px solid #e67e22;
+}
+
+.actie-badge {
+    display: inline-block;
+    background: #e67e22;
+    color: #fff;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .actie-item h3 {
     margin: 0 0 0.75rem;
     font-size: 1.3rem;
@@ -369,6 +386,149 @@ form button:hover {
     display: block;
 }
 
+/* Kalender */
+.calendar-container {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.calendar-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.calendar-nav {
+    background: #e67e22;
+    color: #fff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.calendar-nav:hover {
+    background: #d35400;
+    transform: scale(1.1);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-weight: 600;
+    color: #2c3e50;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    position: relative;
+    padding: 0.25rem;
+    background: #fafafa;
+    transition: all 0.2s ease;
+}
+
+.calendar-day.empty {
+    border: none;
+    background: transparent;
+}
+
+.calendar-day.has-event {
+    background: #fff;
+    border-color: #e67e22;
+    cursor: pointer;
+}
+
+.calendar-day.has-event:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(230, 126, 34, 0.3);
+}
+
+.day-number {
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.event-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin: 2px 1px;
+    display: inline-block;
+}
+
+.event-indicator.onze-actie {
+    background: #e67e22;
+}
+
+.event-indicator.externe-actie {
+    background: #3498db;
+}
+
+.calendar-legend {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.legend-dot.onze-actie {
+    background: #e67e22;
+}
+
+.legend-dot.externe-actie {
+    background: #3498db;
+}
+
+.lijst-titel {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e67e22;
+}
+
 /* Footer */
 footer {
     background: #1a1a1a;
@@ -389,5 +549,9 @@ footer p {
     section { padding: 1.5rem 1.25rem; }
     h2 { font-size: 1.5rem; }
     .donate-btn { padding: 0.8rem 1.8rem; font-size: 1rem; }
+    .eigen-acties-grid { grid-template-columns: 1fr; }
+    .calendar-container { padding: 1rem; }
+    .calendar-day-header, .day-number { font-size: 0.75rem; }
+    .calendar-grid { gap: 0.25rem; }
 }
 @media (min-width:800px) { .grid { display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); } }
