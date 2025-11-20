@@ -28,6 +28,36 @@ header p {
     opacity: 0.95;
 }
 
+/* Social links in header */
+.social-links {
+    margin-top: 1.5rem;
+}
+
+.instagram-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(188, 24, 136, 0.3);
+}
+
+.instagram-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(188, 24, 136, 0.5);
+}
+
+.instagram-link svg {
+    width: 24px;
+    height: 24px;
+}
+
 /* Donate knop - krachtig oranje/rood */
 .donate-btn {
     display: inline-block;
@@ -621,8 +651,35 @@ footer {
     margin-top: 3rem;
 }
 footer p {
-    margin: 0;
+    margin: 0 0 1rem 0;
     opacity: 0.9;
+}
+
+.footer-social {
+    margin-top: 1rem;
+}
+
+.footer-instagram {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.footer-instagram:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(188, 24, 136, 0.4);
+}
+
+.footer-instagram svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* Responsive */
