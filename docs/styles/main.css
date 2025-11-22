@@ -63,18 +63,93 @@ header p {
     display: inline-block;
     background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
     color: #fff;
-    padding: 1rem 2.5rem;
+    padding: 0.8rem 1.5rem;
     border-radius: 8px;
     font-weight: bold;
     font-size: 1.1rem;
     text-decoration: none;
     box-shadow: 0 4px 15px rgba(211, 84, 0, 0.4);
     transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
     border: 2px solid #d35400;
     cursor: pointer;
 }
+
+.donate-btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.donate-photo-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    position: relative;
+}
+
+.donate-photo-strip img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.9);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.donate-photo-strip img:nth-child(1) {
+    transform: rotate(-8deg);
+    z-index: 1;
+    margin-right: -8px;
+}
+
+.donate-photo-strip img:nth-child(2) {
+    transform: rotate(5deg);
+    z-index: 2;
+    margin-right: -8px;
+}
+
+.donate-photo-strip img:nth-child(3) {
+    transform: rotate(-3deg);
+    z-index: 3;
+    margin-right: -8px;
+}
+
+.donate-photo-strip img:nth-child(4) {
+    transform: rotate(7deg);
+    z-index: 4;
+}
+
+.donate-btn:hover .donate-photo-strip img {
+    transform: rotate(0deg) scale(1.1);
+    margin-right: 2px;
+}
+
+.donate-btn:hover .donate-photo-strip img:nth-child(1) {
+    z-index: 5;
+}
+
+.donate-btn:hover .donate-photo-strip img:nth-child(2) {
+    z-index: 6;
+}
+
+.donate-btn:hover .donate-photo-strip img:nth-child(3) {
+    z-index: 7;
+}
+
+.donate-btn:hover .donate-photo-strip img:nth-child(4) {
+    z-index: 8;
+}
+
+.donate-btn-text {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .donate-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(211, 84, 0, 0.6);
@@ -326,6 +401,42 @@ h2 {
 .hero-section {
     background: linear-gradient(135deg, #fff5e6 0%, #fff 100%);
     border-left: 5px solid #e67e22;
+}
+
+.verhaal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.verhaal-header h2 {
+    margin: 0;
+    flex: 1;
+}
+
+.toggle-verhaal {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.toggle-verhaal:hover {
+    color: #e67e22;
+    text-decoration: underline;
+}
+
+.toggle-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.verhaal-content {
+    transition: all 0.3s ease;
 }
 
 .verhaal-content p {

@@ -23,8 +23,13 @@
 
 <main>
     <section id="verhaal" class="hero-section">
-        <h2>Het Verhaal van Koen</h2>
-        <div class="verhaal-content">
+        <div class="verhaal-header">
+            <h2>Het Verhaal van Koen</h2>
+            <a href="#" class="toggle-verhaal" onclick="toggleVerhaal(); return false;" aria-expanded="true">
+                <span class="toggle-text">Verberg verhaal</span> <span class="toggle-icon">▲</span>
+            </a>
+        </div>
+        <div class="verhaal-content" id="verhaal-content">
             <p>Wat begon als een buikpijn, is uiteindelijk een pancreastumor met uitzaaiingen op het buikvlies. Omdat de traditionele chemotherapie via de bloedbaan, niet volledig tot bij de buikvliestumoren komt, werkt die therapie niet goed genoeg om Koen te helpen deze ziekte te overleven.</p>
             
             <p>Wat wel kan helpen is <strong>PIPAC</strong>, met deze behandeling wordt adhv een kijkoperatie chemo rechtstreeks, onder hoge druk, op de tumoren verstuift. Deze therapie heeft zijn werking al bewezen maar nog niet genoeg om terug betaald te worden door de ziekteverzekering.</p>
@@ -153,7 +158,6 @@
     </section>
 
     <section id="fotos" class="foto-gallerij">
-        <h2>Foto's</h2>
         <div class="gallerij-grid">
             <div class="foto-item">
                 <img src="assets/556097044_25181319781454185_928738035946135926_n-e1763632358826-1024x1024.jpg" alt="Koen" loading="lazy">
@@ -345,6 +349,28 @@
     document.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
     });
+    
+    // Toggle verhaal sectie
+    function toggleVerhaal() {
+        const content = document.getElementById('verhaal-content');
+        const button = document.querySelector('.toggle-verhaal');
+        const icon = button.querySelector('.toggle-icon');
+        const text = button.querySelector('.toggle-text');
+        
+        const isHidden = content.style.display === 'none';
+        
+        if (isHidden) {
+            content.style.display = '';
+            icon.textContent = '▲';
+            text.textContent = 'Verberg verhaal';
+            button.setAttribute('aria-expanded', 'true');
+        } else {
+            content.style.display = 'none';
+            icon.textContent = '▼';
+            text.textContent = 'Toon verhaal';
+            button.setAttribute('aria-expanded', 'false');
+        }
+    }
 </script>
 </body>
 </html>

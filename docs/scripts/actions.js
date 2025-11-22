@@ -51,3 +51,25 @@
 
     loadActies();
 })();
+
+// Toggle verhaal sectie
+function toggleVerhaal() {
+    const content = document.getElementById('verhaal-content');
+    const button = document.querySelector('.toggle-verhaal');
+    const icon = button.querySelector('.toggle-icon');
+    const text = button.querySelector('.toggle-text');
+    
+    const isHidden = content.style.display === 'none';
+    
+    if (isHidden) {
+        content.style.display = '';
+        icon.textContent = '▲';
+        text.textContent = 'Verberg verhaal';
+        button.setAttribute('aria-expanded', 'true');
+    } else {
+        content.style.display = 'none';
+        icon.textContent = '▼';
+        text.textContent = 'Toon verhaal';
+        button.setAttribute('aria-expanded', 'false');
+    }
+}
