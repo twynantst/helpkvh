@@ -214,6 +214,12 @@
     </div>
 </footer>
 
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" class="lightbox-content" onclick="event.stopPropagation()">
+</div>
+
 <script src="scripts/donate.js"></script>
 <script src="scripts/actions-remote.js"></script>
 <script>
@@ -413,11 +419,31 @@
         gallery.innerHTML = fixed.map(photo => {
             const isBig = photo.startsWith('big-');
             const className = isBig ? 'foto-item foto-item-big' : 'foto-item';
-            return `<div class="${className}">
+            return `<div class="${className}" onclick="openLightbox('assets/${photo}')">
                 <img src="assets/${photo}" alt="Koen" loading="lazy">
             </div>`;
         }).join('');
     }
+    
+    // Lightbox functions
+    function openLightbox(imageSrc) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        lightboxImg.src = imageSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    // Close lightbox on ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+    });
     
     // Initialize photos when donate button is loaded
     document.addEventListener('DOMContentLoaded', () => {
