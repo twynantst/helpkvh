@@ -158,19 +158,9 @@
     </section>
 
     <section id="fotos" class="foto-gallerij">
-        <div class="gallerij-grid">
-            <div class="foto-item">
-                <img src="assets/556097044_25181319781454185_928738035946135926_n-e1763632358826-1024x1024.jpg" alt="Koen" loading="lazy">
-            </div>
-            <div class="foto-item">
-                <img src="assets/556090715_25175906218662208_4311845263593557153_n-1.jpg" alt="Koen" loading="lazy">
-            </div>
-            <div class="foto-item">
-                <img src="assets/516827059_10237779034284752_108315606800884851_n.jpg" alt="Koen" loading="lazy">
-            </div>
-            <div class="foto-item">
-                <img src="assets/516389823_10237572194993899_1816945211025132217_n-e1763632497173.jpg" alt="Koen" loading="lazy">
-            </div>
+        <h2>Foto's</h2>
+        <div class="gallerij-grid" id="gallerij-grid">
+            <!-- Photos loaded via JavaScript -->
         </div>
     </section>
 
@@ -371,6 +361,71 @@
             button.setAttribute('aria-expanded', 'false');
         }
     }
+    
+    // Load photos
+    const allPhotos = [
+        'samen-voor-koen (1).jpg', 'samen-voor-koen (2).jpg', 'samen-voor-koen (3).jpg',
+        'samen-voor-koen (4).jpg', 'samen-voor-koen (5).jpg', 'samen-voor-koen (6).jpg',
+        'samen-voor-koen (7).jpg', 'samen-voor-koen (8).jpg', 'samen-voor-koen (9).jpg',
+        'samen-voor-koen (10).jpg', 'samen-voor-koen (11).jpg', 'samen-voor-koen (12).jpg',
+        'samen-voor-koen (13).jpg', 'samen-voor-koen (14).jpg', 'samen-voor-koen (15).jpg',
+        'samen-voor-koen (16).jpg', 'samen-voor-koen (17).jpg', 'samen-voor-koen (18).jpg',
+        'samen-voor-koen (19).jpg', 'samen-voor-koen (20).jpg', 'samen-voor-koen (21).jpg',
+        'samen-voor-koen (22).jpg', 'samen-voor-koen (23).jpg', 'samen-voor-koen (24).jpg'
+    ];
+    
+    function shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+    
+    // Load donate button photos (4 random)
+    function loadDonatePhotos() {
+        const strip = document.getElementById('donate-photo-strip');
+        if (!strip) return;
+        
+        const shuffled = shuffleArray(allPhotos);
+        const selected = shuffled.slice(0, 4);
+        
+        strip.innerHTML = selected.map(photo => 
+            `<img src="assets/${photo}" alt="">`
+        ).join('');
+    }
+    
+    // Load gallery photos (all, randomized, scrollable)
+    function loadGalleryPhotos() {
+        const gallery = document.getElementById('gallerij-grid');
+        if (!gallery) return;
+        
+        const shuffled = shuffleArray(allPhotos);
+        
+        gallery.innerHTML = shuffled.map(photo => 
+            `<div class="foto-item">
+                <img src="assets/${photo}" alt="Koen" loading="lazy">
+            </div>`
+        ).join('');
+    }
+    
+    // Initialize photos when donate button is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCalendar();
+        
+        // Wait for donate button to load, then add photos
+        const observer = new MutationObserver(() => {
+            if (document.getElementById('donate-photo-strip')) {
+                loadDonatePhotos();
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.getElementById('donate-button'), { childList: true, subtree: true });
+        
+        // Load gallery photos
+        loadGalleryPhotos();
+    });
 </script>
 </body>
 </html>
