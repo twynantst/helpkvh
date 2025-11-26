@@ -62,51 +62,8 @@
         <h2>Onze Acties</h2>
         <p class="intro-text">We organiseren verschillende acties om Koen te steunen. Klik op een actie voor meer details.</p>
         
-        <div class="eigen-acties-grid">
-            <div class="eigen-actie-card" onclick="toggleDetails(this)" data-datum="2026-01-23">
-                <div class="actie-header">
-                    <h3>🧀 Kaas- & Wijnavond</h3>
-                    <span class="datum-badge">Vr 24 januari 2026</span>
-                </div>
-                <p class="locatie">📍 Parochiezaal Sint-Pieter</p>
-                <div class="actie-details" style="display:none;">
-                    <p><strong>Tijd:</strong> 19:00 - 23:00</p>
-                    <p><strong>Prijs:</strong> €25 per persoon (all-in degustatie)</p>
-                    <p><strong>Programma:</strong> Selectie van 8 kazen met bijpassende wijnen, uitleg door sommelier</p>
-                    <p><strong>Reserveren verplicht:</strong> <a href="mailto:kaas@helpkoen.be">kaas@helpkoen.be</a> - Beperkt aantal plaatsen!</p>
-                </div>
-                <span class="meer-info">▼ Klik voor meer info</span>
-            </div>
-            <div class="eigen-actie-card" onclick="toggleDetails(this)" data-datum="2026-01-23">
-                <div class="actie-header">
-                    <h3>🎉 Benefietfuif</h3>
-                    <span class="datum-badge">Za 25 januari 2026</span>
-                </div>
-                <p class="locatie">📍 Sporthal De Kouter</p>
-                <div class="actie-details" style="display:none;">
-                    <p><strong>Tijd:</strong> 20:00 - 02:00</p>
-                    <p><strong>Toegang:</strong> €10 per persoon (incl. eerste drankje)</p>
-                    <p><strong>Programma:</strong> DJ Marc draait de beste hits, loterij met waardevolle prijzen</p>
-                    <p><strong>Info & tickets:</strong> <a href="mailto:fuif@helpkoen.be">fuif@helpkoen.be</a> of 0456 78 90 12</p>
-                </div>
-                <span class="meer-info">▼ Klik voor meer info</span>
-            </div>
-
-            <div class="eigen-actie-card" onclick="toggleDetails(this)" data-datum="2026-01-25">
-                <div class="actie-header">
-                    <h3>🍝 Spaghetti Dag</h3>
-                    <span class="datum-badge">Zo 26 januari 2026</span>
-                </div>
-                <p class="locatie">📍 Gemeenteplein (overdekt bij regen)</p>
-                <div class="actie-details" style="display:none;">
-                    <p><strong>Tijd:</strong> 11:30 - 18:00 (doorlopend)</p>
-                    <p><strong>Prijs:</strong> €12 volwassenen, €7 kinderen (-12j)</p>
-                    <p><strong>Menu:</strong> Spaghetti bolognese (vega optie beschikbaar), salade, dessert, koffie</p>
-                    <p><strong>Extra:</strong> Springkasteel voor de kinderen, live muziek vanaf 14u</p>
-                    <p><strong>Afhaal mogelijk:</strong> Bestel op 0498 12 34 56</p>
-                </div>
-                <span class="meer-info">▼ Klik voor meer info</span>
-            </div>
+        <div class="eigen-acties-grid" id="eigen-acties-grid">
+            <!-- Wordt gevuld door JavaScript -->
         </div>
     </section>
 
@@ -223,10 +180,74 @@
 <script src="scripts/donate.js"></script>
 <script src="scripts/actions-remote.js"></script>
 <script>
+    // Centrale definitie van eigen acties
+    const EIGEN_ACTIES = [
+        {
+            datum: '2026-01-24',
+            datumFormatted: 'Vr 24 januari 2026',
+            emoji: '🧀',
+            titel: 'Kaas- & Wijnavond',
+            locatie: 'Parochiezaal Sint-Pieter',
+            details: [
+                { label: 'Tijd', value: '19:00 - 23:00' },
+                { label: 'Prijs', value: '€25 per persoon (all-in degustatie)' },
+                { label: 'Programma', value: 'Selectie van 8 kazen met bijpassende wijnen, uitleg door sommelier' },
+                { label: 'Reserveren verplicht', value: '<a href="mailto:kaas@helpkoen.be">kaas@helpkoen.be</a> - Beperkt aantal plaatsen!' }
+            ]
+        },
+        {
+            datum: '2026-01-25',
+            datumFormatted: 'Za 25 januari 2026',
+            emoji: '🎉',
+            titel: 'Benefietfuif',
+            locatie: 'Sporthal De Kouter',
+            details: [
+                { label: 'Tijd', value: '20:00 - 02:00' },
+                { label: 'Toegang', value: '€10 per persoon (incl. eerste drankje)' },
+                { label: 'Programma', value: 'DJ Marc draait de beste hits, loterij met waardevolle prijzen' },
+                { label: 'Info & tickets', value: '<a href="mailto:fuif@helpkoen.be">fuif@helpkoen.be</a> of 0456 78 90 12' }
+            ]
+        },
+        {
+            datum: '2026-01-26',
+            datumFormatted: 'Zo 26 januari 2026',
+            emoji: '🍝',
+            titel: 'Spaghetti Dag',
+            locatie: 'Gemeenteplein (overdekt bij regen)',
+            details: [
+                { label: 'Tijd', value: '11:30 - 18:00 (doorlopend)' },
+                { label: 'Prijs', value: '€12 volwassenen, €7 kinderen (-12j)' },
+                { label: 'Menu', value: 'Spaghetti bolognese (vega optie beschikbaar), salade, dessert, koffie' },
+                { label: 'Extra', value: 'Springkasteel voor de kinderen, live muziek vanaf 14u' },
+                { label: 'Afhaal mogelijk', value: 'Bestel op 0498 12 34 56' }
+            ]
+        }
+    ];
+    
     // Componenten laden
     fetch('components/donate-button.html')
         .then(r => r.text())
         .then(html => document.getElementById('donate-button').innerHTML = html);
+    
+    // Render eigen acties
+    function renderEigenActies() {
+        const grid = document.getElementById('eigen-acties-grid');
+        if (!grid) return;
+        
+        grid.innerHTML = EIGEN_ACTIES.map(actie => `
+            <div class="eigen-actie-card" onclick="toggleDetails(this)" data-datum="${actie.datum}">
+                <div class="actie-header">
+                    <h3>${actie.emoji} ${actie.titel}</h3>
+                    <span class="datum-badge">${actie.datumFormatted}</span>
+                </div>
+                <p class="locatie">📍 ${actie.locatie}</p>
+                <div class="actie-details" style="display:none;">
+                    ${actie.details.map(d => `<p><strong>${d.label}:</strong> ${d.value}</p>`).join('')}
+                </div>
+                <span class="meer-info">▼ Klik voor meer info</span>
+            </div>
+        `).join('');
+    }
     
     // Toggle details voor eigen acties
     function toggleDetails(card) {
@@ -265,12 +286,6 @@
     // Kalender functionaliteit
     let currentMonth = 0; // 0 = januari 2026
     let currentYear = 2026;
-    
-    const EIGEN_ACTIES = [
-        { datum: '2026-01-23', titel: 'Benefietfuif', type: 'eigen' },
-        { datum: '2026-01-23', titel: 'Kaas- & Wijnavond', type: 'eigen' },
-        { datum: '2026-01-25', titel: 'Spaghetti Dag', type: 'eigen' }
-    ];
     
     function renderCalendar() {
         const grid = document.getElementById('calendar-grid');
@@ -343,6 +358,7 @@
     
     // Initialiseer kalender
     document.addEventListener('DOMContentLoaded', () => {
+        renderEigenActies();
         renderCalendar();
     });
     
@@ -447,6 +463,7 @@
     
     // Initialize photos when donate button is loaded
     document.addEventListener('DOMContentLoaded', () => {
+        renderEigenActies();
         renderCalendar();
         
         // Wait for donate button to load, then add photos
