@@ -530,33 +530,53 @@ h2 {
 
 .gallerij-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0.75rem;
-    max-height: 500px;
-    overflow-y: auto;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.5rem;
+    max-height: 400px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     padding: 1rem;
     background: #f9f9f9;
     border-radius: 8px;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
 }
 
+/* Desktop scrollbar */
 .gallerij-grid::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 
 .gallerij-grid::-webkit-scrollbar-track {
     background: #e0e0e0;
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
 .gallerij-grid::-webkit-scrollbar-thumb {
     background: #e67e22;
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
 .gallerij-grid::-webkit-scrollbar-thumb:hover {
     background: #d35400;
+}
+
+/* Scroll indicator voor mobile */
+.foto-gallerij::after {
+    content: '↓ Scroll voor meer foto\'s ↓';
+    display: block;
+    text-align: center;
+    color: #999;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+@media (min-width: 600px) {
+    .foto-gallerij::after {
+        display: none;
+    }
 }
 
 .foto-item {
