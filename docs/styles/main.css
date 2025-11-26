@@ -645,8 +645,8 @@ h2 {
 
 .eigen-acties-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
     margin-top: 1.5rem;
 }
 
@@ -654,10 +654,36 @@ h2 {
     background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
     border: 2px solid #e0e0e0;
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 599px) {
+    .eigen-acties-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .eigen-actie-card {
+        padding: 1rem;
+    }
+    
+    .actie-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+    
+    .eigen-actie-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .datum-badge {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
 }
 
 .eigen-actie-card:hover {
