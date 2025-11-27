@@ -1,8 +1,6 @@
 (function() {
     const container = document.getElementById('acties-container');
     
-    // VERVANG DEZE URL door jouw gepubliceerde Google Sheet CSV export URL
-    // Voorbeeld: https://docs.google.com/spreadsheets/d/e/JOUW_SHEET_ID/pub?output=csv
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpS6o94LVFOmq7ttlODzHUUei2z1oz99qKEiD98N6ujndtMKfotH2vUyx5_00fMoyipBBjxdiwt6rN/pub?output=csv';
 
     // Voorbeeld testdata (wordt gebruikt tot Google Sheet geconfigureerd is)
@@ -58,15 +56,6 @@
                 type: 'eigen'
             };
         });
-        
-        // Check of Sheet URL al ingevuld is
-        if (SHEET_CSV_URL.includes('JOUW_SHEET_ID')) {
-            console.info('Google Sheet nog niet geconfigureerd, toon eigen + demo data');
-            const alleActies = [...eigenActiesVoorLijst, ...DEMO_ACTIES];
-            renderActies(alleActies);
-            window.alleExterneActies = DEMO_ACTIES; // Voor kalender
-            return;
-        }
         
         container.innerHTML = '<p class="loading">Acties laden...</p>';
         
