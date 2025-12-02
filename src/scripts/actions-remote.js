@@ -177,7 +177,7 @@
                 ` : ''}
                 <p><strong>📍 Locatie:</strong> ${a.type === 'eigen' ? a.locatie : escapeHtml(a.locatie)}</p>
                 <p><strong>👥 Organisator:</strong> ${escapeHtml(a.organisator)}</p>
-                <p><strong>📝 Details:</strong> ${escapeHtml(a.beschrijving)}</p>
+                <p><strong>📝 Details:</strong> ${addLines(escapeHtml(a.beschrijving))}</p>
                 <p class="contact">✉️ Contact: <a href="mailto:${escapeHtml(a.email)}">${escapeHtml(a.email)}</a></p>
             </div>
         `).join('');
@@ -191,6 +191,10 @@
             '"': '&quot;',
             "'": '&#39;'
         }[c]));
+    }
+
+    function addLines(str) {
+        return String(str).replace(/\|/g, c => ({'|': '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}[c]));
     }
     
     function formatDate(date) {
