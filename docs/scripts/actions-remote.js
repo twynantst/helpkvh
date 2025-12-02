@@ -38,7 +38,7 @@
         // Converteer EIGEN_ACTIES naar formaat dat renderActies verwacht
         const eigenActiesVoorLijst = (window.EIGEN_ACTIES || []).map(actie => {
             // Maak een mooie beschrijving van de details
-            const detailsText = actie.details
+            const detailsText = '| ' + actie.details
                 .map(d => {
                     // Strip HTML tags voor tekstweergave
                     const cleanValue = d.value.replace(/<[^>]*>/g, '');
@@ -177,7 +177,7 @@
                 ` : ''}
                 <p><strong>📍 Locatie:</strong> ${a.type === 'eigen' ? a.locatie : escapeHtml(a.locatie)}</p>
                 <p><strong>👥 Organisator:</strong> ${escapeHtml(a.organisator)}</p>
-                <p><strong>📝 Details:</strong> ${addLines(escapeHtml(a.beschrijving))}</p>
+                <p><strong>📝 Details:</strong> ${formatLinks(addLines(escapeHtml(a.beschrijving)))}</p>
                 <p class="contact">✉️ Contact: <a href="mailto:${escapeHtml(a.email)}">${escapeHtml(a.email)}</a></p>
             </div>
         `).join('');
@@ -194,7 +194,12 @@
     }
 
     function addLines(str) {
-        return String(str).replace(/\|/g, c => ({'|': '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}[c]));
+        return String(str).replace(/\|/g, c => ({'|': '<br>'}[c]));
+    }
+
+    function formatLinks(str) {
+        return String(str).replace(/(https:\/\/\S+)/g, match => 
+            `<a href="${match}" target="_blank" rel="noopener noreferrer" style="color: #e67e22; text-decoration: underline;">${match}</a>`);
     }
     
     function formatDate(date) {
