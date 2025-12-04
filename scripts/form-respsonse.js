@@ -48,7 +48,7 @@ function bottlePrice(response) {
 }
 
 function fallback(responses) {
-  var block = "<p><strong>Uw bestelling:</strong></p>";
+  var block = "";
   
   for (var i = 0; i < responses.length; i++) {
     var response = responses[i];
@@ -60,10 +60,18 @@ function fallback(responses) {
   return block;
 }
 
-
 function totalOrder(responses) {
-  var block = "<p><strong>Uw bestelling:</strong></p><table border=\"1\">" + 
-  "<tr><th>Naam</th><th>Aantal</th><th>Prijs</th><th>Totaal</th></tr>";
+  var table = `
+      <table style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid #ccc; padding: 8px; background-color: #f4f4f4;">Naam</th>
+            <th style="border: 1px solid #ccc; padding: 8px;">Aantal</th>
+            <th style="border: 1px solid #ccc; padding: 8px;">Prijs</th>
+            <th style="border: 1px solid #ccc; padding: 8px;">Totaal</th>
+          </tr>
+        </thead>
+        <tbody>`;
   var total = 0;
 
   try {
@@ -73,12 +81,23 @@ function totalOrder(responses) {
         var price = bottlePrice(respons);
         var count = bottleCount(respons);
         if (count > 0 && price > 0) {
-            block = block + "<tr><td>" + question + "</td><td>" + count + "</td><td>€" + price + ",00</td><td>€" + (count * price) + ",00</td></tr>";
+          table += `<tr>
+                      <td style="border: 1px solid #ccc; padding: 8px;">${question}</td>
+                      <td style="border: 1px solid #ccc; padding: 8px;">${count}</td>
+                      <td style="border: 1px solid #ccc; padding: 8px;">€${price.toFixed(2)}</td>
+                      <td style="border: 1px solid #ccc; padding: 8px;">€${(count * price).toFixed(2)}</td>
+                    </tr>`;
             total = total + (count * price);
         }
       }
-      block = block + "</table><p><strong>Totaal: €" + total + ",00</strong></p>";
-      return block;
+      table += `
+            <tr>
+              <td colspan="3" style="border: 1px solid #ccc; padding: 8px; text-align: right;"><strong>Totaal:</strong></td>
+              <td style="border: 1px solid #ccc; padding: 8px;"><strong>€${total.toFixed(2)}</strong></td>
+            </tr>
+          </tbody>
+        </table>`
+      return table;
   }
   catch (err) {
     Logger.log("Error in totalOrder: " + err.message);
@@ -103,12 +122,11 @@ function opmerkingen(responses) {
     var response = responses[i];
     var question = response.getItem().getTitle();
     if (question.includes("opmerkingen")) {
-        return "<p style=\"margin-bottom: 40px;\"><strong>Uw opmerkingen:</strong></p><p>" + response.getResponse() + "</p>";
+        return "<p style=\"margin-bottom: 40px;text-decoration: underline;\">Uw opmerkingen:</p><p>" + response.getResponse() + "</p>";
     }
   }
   return "";
 }
-
 
 function onFormSubmit(e) {
   try {
@@ -120,29 +138,48 @@ function onFormSubmit(e) {
         return;
     }
 
-    var message = "<h2>Bedankt voor je inzending \"" + naam(responses) + "\"!</h2>" + totalOrder(responses) + 
-        "<p style=\"margin-bottom: 20px;\">Gelieve het totaalbedrag over te maken op rekening: <strong>BE20 7380 5241 2556 </strong><br>Met vermelding: <strong>Wijn + " + email + "</strong></p>" + 
-        opmerkingen(responses) + 
-        "<p style=\"margin-bottom: 20px;\">We nemen zo snel mogelijk contact met je op voor de verdere afhandeling.</p>" +
-        "<p style=\"margin-bottom: 40px;\">Alle opbrengsten gaan naar Koens PIPAC-behandeling. 🍷💙</p>" +
-        "<p style=\"margin-bottom: 20px;\">Indien er vragen zijn, kan u steeds mailen naar wijn@samenvoorkoen.be</p>" + 
-        "<p style=\"margin-bottom: 20px;\">Met vriendelijke groet, <br> SAMEN voor Koen TEGEN kanker <br> Bedankt voor uw steun – samen maken we het verschil!</p>";
+    var htmlBody = `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="UTF-8"></head>
+        <body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+          <h2 style="color:#444;">Bedankt, ${naam(responses)} voor uw inzending!</h2>
+          <p style="text-decoration: underline;">Uw bestelling:</p>
+          ${totalOrder(responses)}
+          <p>Gelieve het totaalbedrag over te maken op rekening:<br>
+          <strong>BE20 7380 5241 2556</strong><br>
+          Met vermelding: <strong>Wijn + uw ${email}</strong></p>
+          <br>
+          ${opmerkingen(responses)}
+          <p style="margin-bottom: 20px; margin-top: 20px;">We nemen zo snel mogelijk contact met je op voor de verdere afhandeling.</p>
+          <p>Indien er vragen zijn, kan u steeds mailen naar <a href="mailto:wijn@samenvoorkoen.be">wijn@samenvoorkoen.be</a></p>
+          <p style="margin-top: 40px;">
+            Met vriendelijke groet,<br>
+            <strong>SAMEN voor Koen TEGEN kanker</strong><br>
+            Bedankt voor uw steun – samen maken we het verschil!
+          </p>
+        </body>
+      </html>`;
+
 
     // E-mail verzenden
     if (email) {
         MailApp.sendEmail({
             to: email,
-            subject: "Bevestiging van je inzending 'SAMEN voor Koen TEGEN kanker'",
-            htmlBody: message
+            name: "SAMEN voor Koen TEGEN kanker",
+            subject: "Bevestiging van je bestelling - SAMEN voor Koen TEGEN kanker",
+            htmlBody: htmlBody,
+            body: "Bedankt voor uw bestelling! Gelieve het totaalbedrag over te maken op BE20 7380 5241 2556."
+            
         });
     }
-    if (email) {
-        MailApp.sendEmail({
-            to: "wijn.bestelling@samenvoorkoen.be",
-            subject: "Bestelling wijn van " + naam(responses),
-            htmlBody: message
-        });
-    }
+    
+    MailApp.sendEmail({
+      to: "wijn.bestelling@samenvoorkoen.be",
+      subject: `Bestelling wijn van ${naam(responses)} - ${email}`,
+      htmlBody: htmlBody
+    });
+
   } catch (err) {
     Logger.log("ERROR in onFormSubmit: " + err.message);
     Logger.log("Stack: " + err.stack);
