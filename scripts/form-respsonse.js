@@ -1,3 +1,12 @@
+/**
+ * Google Forms Response Handler
+ * 
+ * Required OAuth Scopes (will be auto-detected):
+ * - Forms: Read form responses
+ * - Mail: Send emails
+ * - URL Fetch: Download PDF attachments
+ */
+
 function parseAantalFlessen(selection) {
   if (!selection || selection === "0") {
     return 0;
@@ -164,7 +173,7 @@ function onFormSubmit(e) {
           ${totalOrder(responses)}
           <p>Gelieve het totaalbedrag over te maken op rekening:<br>
           <strong>BE20 7380 5241 2556</strong><br>
-          Met vermelding: <strong>Wijn + uw ${email}</strong></p>
+          Met vermelding: <strong>Wijn + ${email}</strong></p>
           <br>
           ${opmerkingen(responses)}
           <p style="margin-bottom: 20px; margin-top: 20px;">We nemen zo snel mogelijk contact met je op voor de verdere afhandeling.</p>
@@ -187,11 +196,13 @@ function onFormSubmit(e) {
 
 
     // Haal PDF van een publieke URL
-    var pdfUrl = "https://samenvoorkoen.be/assets/wijn/bedankbrief.pdf";
+    //var pdfUrl = "https://samenvoorkoen.be/assets/wijn/bedankbrief.pdf";
+    var pdfUrl ="https://twynantst.github.io/samenvoorkoen/assets/wijn/bedankbrief.pdf"
+    var pdfBlob = null;
     
     try {
       var response = UrlFetchApp.fetch(pdfUrl);
-      pdfBlob = response.getBlob().setName("Wijnlijst.pdf");
+      pdfBlob = response.getBlob().setName("bedankbrief.pdf");
     } catch (err) {
       Logger.log("ERROR fetching PDF: " + err.message);
     }
