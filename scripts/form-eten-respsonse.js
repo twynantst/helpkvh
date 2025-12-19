@@ -120,7 +120,7 @@ function opmerkingen(responses) {
     var question = response.getItem().getTitle();
     var answer = response.getResponse();
     if (question.includes("Opmerkingen") && answer && answer.trim() !== "") {
-      return "<p style=\"text-decoration: underline;\">Uw opmerkingen:</p><p>" + response.getResponse() + "</p>";
+      return `<p style="margin-top: 40px;text-decoration: underline;">Uw opmerkingen:</p><p style="margin-bottom: 40px">${response.getResponse()}</p>`;
     }
   }
   return "";
@@ -152,9 +152,7 @@ function onFormSubmit(e) {
           <img src="https://samenvoorkoen.be/assets/payments/payconiq.png" alt="QR Code voor betaling" style="width:150px;height:150px;">
           <br>
           <a href="HTTPS://PAYCONIQ.COM/T/1/3A27A9D64831C2A22202F34F" style="display: inline-block; padding: 12px 24px; background-color: #FF4785; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 10px 0;">💳 Betaal via Payconiq</a>
-          <br>
           ${opmerkingen(responses)}
-          <br>
           <p style="margin-bottom: 20px; margin-top: 20px;">We nemen zo snel mogelijk contact met je op voor de verdere afhandeling.</p>
           <p>Indien er vragen zijn, kan u steeds mailen naar <a href="mailto:eten@samenvoorkoen.be">eten@samenvoorkoen.be</a></p>
           <p style="margin-top: 40px;">
