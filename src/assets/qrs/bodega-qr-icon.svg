@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- White background circle -->
+  <circle cx="100" cy="100" r="95" fill="white" stroke="#e67e22" stroke-width="8"/>
+  
+  <!-- Wine glass -->
+  <g transform="translate(100, 60)">
+    <!-- Glass bowl -->
+    <path d="M -25 0 Q -30 20, -25 40 L -8 60 L 8 60 L 25 40 Q 30 20, 25 0 Z" 
+          fill="none" stroke="#6a1b4d" stroke-width="4"/>
+    
+    <!-- Wine in glass -->
+    <path d="M -23 15 Q -27 30, -23 38 L -8 55 L 8 55 L 23 38 Q 27 30, 23 15 Z" 
+          fill="#9b2d5a" opacity="0.8"/>
+    
+    <!-- Stem -->
+    <rect x="-3" y="60" width="6" height="40" fill="#6a1b4d"/>
+    
+    <!-- Base -->
+    <ellipse cx="0" cy="105" rx="20" ry="6" fill="#6a1b4d"/>
+  </g>
+  
+  <!-- Cheese -->
+  <g transform="translate(145, 125)">
+    <!-- Cheese wedge -->
+    <path d="M 0 0 L 30 0 L 30 20 Q 25 25, 15 25 Q 5 25, 0 20 Z" 
+          fill="#f4a460" stroke="#d2691e" stroke-width="2"/>
+    
+    <!-- Cheese holes -->
+    <circle cx="12" cy="8" r="3" fill="#d2691e"/>
+    <circle cx="20" cy="15" r="2.5" fill="#d2691e"/>
+    <circle cx="8" cy="17" r="2" fill="#d2691e"/>
+  </g>
+  
+  <!-- Decorative grape -->
+  <g transform="translate(55, 130)">
+    <circle cx="0" cy="0" r="6" fill="#6a1b4d"/>
+    <circle cx="10" cy="-3" r="6" fill="#6a1b4d"/>
+    <circle cx="5" cy="8" r="6" fill="#6a1b4d"/>
+  </g>
+</svg>
